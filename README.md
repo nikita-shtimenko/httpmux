@@ -1,17 +1,38 @@
 <div align="center">
 <img alt="httpmux" src="./logo.svg" width="256" />
-<p>A tiny wrapper on top of standart http.ServeMux for Go web applications</p>
+<p>A tiny wrapper on top of standart http.ServeMux designed for Go web applications (1.22+)</p>
 </div>
 
 ---
 
 httpmux packs small set of features that you'll probably need:
 
+- Register handlers the **default** way with Handle and HandleFunc:
+
+  ```go
+  mux := httpmux.New()
+  mux.Handle("GET /", http.HandlerFunc(exampleHandlerGet))
+  mux.HandleFunc("POST /", exampleHandlerPost)
+  // etc.
+  ```
+
+  or **opt-in** to register handlers with provided methods:
+
+  ```go
+  mux := httpmux.New()
+  mux.Get("/", exampleHandlerGet)
+  mux.Post("/", exampleHandlerPost)
+  mux.Put("/", exampleHandlerPut)
+  mux.Delete("/", exampleHandlerDelete)
+  mux.Head("/", exampleHandlerHead)
+  mux.Options("/", exampleHandlerOptions)
+  ```
+
 - Create route **groups which use different middleware**.
 - **Customizable handler** for `404 Not Found` response.
 - Works with `http.Handler`, `http.HandlerFunc`, and standard Go middleware.
 - Zero dependencies.
-- Tiny and readable codebase (~60 lines of code).
+- Tiny and readable codebase (~90 lines of code).
 
 ---
 
@@ -26,7 +47,7 @@ go get github.com/nikita-shtimenko/httpmux@latest
 ```go
 mux := httpmux.New()
 
-// You can customize the deafult 'not found' handler to your handler.
+// You can customize the deafult 'not found' handler.
 mux.NotFound = http.HandlerFunc(handlerNotFound)
 
 // The Use() method can be used to register middleware.
@@ -53,8 +74,8 @@ mux.Group(func(mux *httpmux.Mux) {
 })
 
 func handlerNotFound(w http.ResponseWriter, r *http.Request) {
-  w.WriteHeader(http.StatusNotFound)
-	w.Write([]byte(http.StatusText(http.StatusNotFound)))
+    w.WriteHeader(http.StatusNotFound)
+    w.Write([]byte(http.StatusText(http.StatusNotFound)))
 }
 
 func exampleHandlerFunc1(w http.ResponseWriter, r *http.Request) {
@@ -65,7 +86,6 @@ func exampleHandlerFunc1(w http.ResponseWriter, r *http.Request) {
 
 ### Notes
 
-- httpmux is a thin wrapper over the standard http.ServeMux, so that the routing declaration and behavior remains standard.
 - Middleware must be declared _before_ a route in order to be used by that route. Any middleware declared after a route won't act on that route. For example:
 
 ```go
