@@ -1,5 +1,6 @@
 <div align="center">
-httpmux - tiny wrapper on HTTP ServeMux for Go web applications
+<img alt="httpmux" src="./logo.svg" width="256" />
+<p>A tiny wrapper on top of standart http.ServeMux for Go web applications</p>
 </div>
 
 ---
@@ -64,7 +65,7 @@ func exampleHandlerFunc1(w http.ResponseWriter, r *http.Request) {
 
 ### Notes
 
-- It`s only a thin wrapper on default ServeMux, so the behaviour is default.
+- httpmux is a thin wrapper over the standard http.ServeMux, so that the routing declaration and behavior remains standard.
 - Middleware must be declared _before_ a route in order to be used by that route. Any middleware declared after a route won't act on that route. For example:
 
 ```go
