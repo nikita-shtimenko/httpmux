@@ -25,6 +25,8 @@ $ go get github.com/nikita-shtimenko/httpmux@latest
 ```go
 mux := httpmux.New()
 
+mux.NotFound = http.HandlerFunc(handlerNotFound)
+
 // The Use() method can be used to register middleware.
 // Middleware declared at the top level will used on all routes.
 mux.Use(exampleMiddleware1)
@@ -47,6 +49,11 @@ mux.Group(func(mux *httpmux.Mux) {
         mux.HandleFunc("GET /api/v1/users/{id}", exampleHandlerFunc3)
     })
 })
+
+func handlerNotFound(w http.ResponseWriter, r *http.Request) {
+  w.WriteHeader(http.StatusNotFound)
+	w.Write([]byte(http.StatusText(http.StatusNotFound)))
+}
 
 func exampleHandlerFunc1(w http.ResponseWriter, r *http.Request) {
     w.WriteHeader(http.StatusOK)
