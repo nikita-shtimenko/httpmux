@@ -18,7 +18,7 @@ httpmux packs small set of features that you'll probably need:
 ### Installation
 
 ```
-$ go get github.com/nikita-shtimenko/httpmux@latest
+go get github.com/nikita-shtimenko/httpmux@latest
 ```
 
 ### Basic example
