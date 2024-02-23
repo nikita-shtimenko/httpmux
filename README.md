@@ -25,6 +25,7 @@ $ go get github.com/nikita-shtimenko/httpmux@latest
 ```go
 mux := httpmux.New()
 
+// You can customize the deafult 'not found' handler to your handler.
 mux.NotFound = http.HandlerFunc(handlerNotFound)
 
 // The Use() method can be used to register middleware.
